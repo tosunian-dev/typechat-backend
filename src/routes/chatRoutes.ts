@@ -5,7 +5,7 @@ const router = Router()
 
 router.post('/chats/create', createChat)
 router.get('/chats/get/:userOne/:userTwo', getChat)
-router.get('/chats/getusername/:id', getChat)
+router.delete('/chats/delete/:chatID', deleteChat)
 router.get('/chats/getchatdata/:userOne/:userTwo', getChatData)
 
 export default router

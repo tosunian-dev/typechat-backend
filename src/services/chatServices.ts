@@ -5,8 +5,28 @@ import { Request, Response } from 'express'
 import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
-    const createdChat = await ChatModel.create(chat);
-    return createdChat;
+    const existsChat = await ChatModel.find({
+        $or: [
+            { 
+                $and: [
+                    { userOne: chat.userOne },
+                    { userTwo: chat.userTwo } 
+                ]
+            },
+            { 
+                $and: [ 
+                    { userOne: chat.userTwo },
+                    { userTwo: chat.userOne } 
+                ] 
+            }
+    ]})
+
+    if(existsChat.length > 0) {
+        return 'CHAT_EXISTS'
+    } else {
+        const createdChat = await ChatModel.create(chat);
+        return {createdChat, msg: 'CHAT_CREATED_SUCCESSFULLY'};
+    }
 }
 
 const getChatService = async ({params}:Request) => {
@@ -70,7 +90,18 @@ const getChatService = async ({params}:Request) => {
 
 const deleteChatService  = async (params:string) => {
     const chat = await ChatModel.deleteOne({_id:params});
-    return "Chat deleted."
+    if(chat.deletedCount > 0) {
+        await deleteChatMessagesService(params)
+        return 'CHAT_DELETED_SUCCESSFULLY'
+    } else {
+        return 'CHAT_DELETE_ERROR'
+    }
+}
+
+const deleteChatMessagesService = async (params: string) => { 
+    const deletedMessages = await MessageModel.deleteMany({chatID: params})
+    console.log(deletedMessages)
+    return deletedMessages
 }
 
 const getChatDataService = async ({params}:Request) => {
@@ -83,6 +114,8 @@ const getChatDataService = async ({params}:Request) => {
         ]});
     return chat
 }
+
+
 
 export {
     createChatService,

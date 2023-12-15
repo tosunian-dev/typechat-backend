@@ -12,6 +12,7 @@ import { ProfileImage } from '../interfaces/profile_image.interface';
 import ProfileImageModel from '../models/profileImage';
 import { ObjectId, Types } from "mongoose";
 import path from 'path';
+import fs from 'fs';
 
 type imageData = {
     path:string;
@@ -168,8 +169,18 @@ const uploadProfileImageService = async ({file_name, path, userId} : ProfileImag
 }
 
 const updateUserProfileImageService = async (imageData:imageData) => { 
+    const prevImage = await UserModel.findById(imageData.userId)
+    fs.unlink(`file_storage\\${prevImage?.profileImage}`, async (error) => {
+        if(error){
+            return console.log(error)
+        }
+        const updatedUser = await UserModel.findByIdAndUpdate(imageData.userId, {profileImage: imageData.path}, {new:true})
+        return updatedUser
+        
+    })
     const updatedUser = await UserModel.findByIdAndUpdate(imageData.userId, {profileImage: imageData.path}, {new:true})
-    return updatedUser
+        return updatedUser
+    
 }
 
 /*const updateUserDataService = async ({params}: Request) => {

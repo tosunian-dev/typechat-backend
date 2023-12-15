@@ -5,7 +5,7 @@ import { createChatService, getChatService, deleteChatService, getChatDataServic
 const createChat = async ({body}: Request, res: Response) => {
     try {
         const response_data = await createChatService(body);
-        res.send({response_data, msg: 'CHAT_CREATED_SUCCESSFULLY'}) ;
+        res.send({response_data}) ;
     } catch (error) {
         handleError(res, 'ERROR_CHAT_CREATION');
     }
@@ -14,16 +14,16 @@ const createChat = async ({body}: Request, res: Response) => {
 const getChat = async (req: Request, res: Response) => {
     try {
         const response_data = await getChatService(req);
-        res.send({response_data, msg: 'CHAT_GET_SUCCESSFULLY'}); 
+        res.send({response_data}); 
     } catch (error) {
         handleError(res, 'ERROR_GET_CHAT');
     }
 }
 
-const deleteChat = async ({params}: Request, res: Response) => {
+const deleteChat = async ({params}: Request, res: Response) => {    
     try {
         const response_data = await deleteChatService(params.chatID);
-        res.send({msg: 'CHAT_DELETED_SUCCESSFULLY'}); 
+        res.send(response_data); 
     } catch (error) {
         handleError(res, 'ERROR_DELETE_CHAT');
     }
