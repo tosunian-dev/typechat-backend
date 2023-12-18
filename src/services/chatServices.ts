@@ -5,6 +5,8 @@ import { Request, Response } from 'express'
 import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
+    console.log('chat log ', chat);
+    
     const existsChat = await ChatModel.find({
         '$or': [
             { 
@@ -20,8 +22,8 @@ const createChatService = async (chat: Chat) => {
                 ] 
             }
     ]});
-    
-    console.log(existsChat);
+
+    console.log('existsChat ', existsChat);
     
     if(existsChat.length !== 0) {
         return 'CHAT_EXISTS';
