@@ -6,21 +6,23 @@ import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
     const existsChat = await ChatModel.find({
-        $or: [
+        '$or': [
             { 
-                $and: [
+                '$and': [
                     { userOne: chat.userOne },
                     { userTwo: chat.userTwo } 
                 ]
             },
             { 
-                $and: [ 
+                '$and': [ 
                     { userOne: chat.userTwo },
                     { userTwo: chat.userOne } 
                 ] 
             }
     ]});
-
+    
+    console.log(existsChat);
+    
     if(existsChat.length !== 0) {
         return 'CHAT_EXISTS';
     } else {
