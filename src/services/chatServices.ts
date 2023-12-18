@@ -18,17 +18,11 @@ const createChatService = async (chat: Chat) => {
                     { userOne: chat.userTwo },
                     { userTwo: chat.userOne } 
                 ] 
-            },
-            { 
-                $and: [ 
-                    { userTwo: chat.userTwo },
-                    { userOne: chat.userOne } 
-                ] 
             }
-    ]})
+    ]});
 
-    if(existsChat.length > 0) {
-        return 'CHAT_EXISTS'
+    if(existsChat.length !== 0) {
+        return 'CHAT_EXISTS';
     } else {
         const createdChat = await ChatModel.create(chat);
         return {createdChat, msg: 'CHAT_CREATED_SUCCESSFULLY'};
