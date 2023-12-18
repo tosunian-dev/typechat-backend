@@ -88,8 +88,7 @@ const uploadProfileImage = async (req : RequestExtended, res: Response) => {
 
 const getProfileImage = async (req:Request, res:Response) => {
     const img = req.params['img']
-    console.log(img);
-    
+
     fs.stat('./file_storage/'+img, function(error){
         if(error){
             const imagePath = './file_storage/defaultimage.png'
@@ -99,7 +98,6 @@ const getProfileImage = async (req:Request, res:Response) => {
             res.status(200).sendFile(path.resolve(imagePath) )
         }
     })
-
 }
 
 /*const updateUserData = async (req : RequestExtended, res: Response) => {

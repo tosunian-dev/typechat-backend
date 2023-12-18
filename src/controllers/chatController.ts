@@ -3,17 +3,15 @@ import { handleError } from '../utils/error.handle'
 import { createChatService, getChatService, deleteChatService, getChatDataService } from '../services/chatServices'
 
 const createChat = async ({body}: Request, res: Response) => {
-    console.log('from createChat', body)
     try {
         const response_data = await createChatService(body);
-        res.send({response_data}) ;
+        res.send({response_data});
     } catch (error) {
         handleError(res, 'ERROR_CHAT_CREATION');
     }
 }
 
 const getChat = async (req: Request, res: Response) => {
-    
     try {
         const response_data = await getChatService(req);
         res.send({response_data}); 

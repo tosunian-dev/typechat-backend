@@ -5,7 +5,6 @@ import { Request, Response } from 'express'
 import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
-    console.log('from createChatService', chat)
     const existsChat = await ChatModel.find({
         $or: [
             { 
@@ -18,6 +17,12 @@ const createChatService = async (chat: Chat) => {
                 $and: [ 
                     { userOne: chat.userTwo },
                     { userTwo: chat.userOne } 
+                ] 
+            },
+            { 
+                $and: [ 
+                    { userTwo: chat.userTwo },
+                    { userOne: chat.userOne } 
                 ] 
             }
     ]})

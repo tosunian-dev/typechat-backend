@@ -172,7 +172,7 @@ const updateUserProfileImageService = async (imageData:imageData) => {
     const prevImage = await UserModel.findById(imageData.userId)
     fs.unlink(`file_storage\\${prevImage?.profileImage}`, async (error) => {
         if(error){
-            return console.log(error)
+            return error
         }
         const updatedUser = await UserModel.findByIdAndUpdate(imageData.userId, {profileImage: imageData.path}, {new:true})
         return updatedUser
@@ -182,10 +182,6 @@ const updateUserProfileImageService = async (imageData:imageData) => {
         return updatedUser
     
 }
-
-/*const updateUserDataService = async ({params}: Request) => {
-    const updatedUser = await UserModel.find
-}*/
 
 export {
     createUserService,

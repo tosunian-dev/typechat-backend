@@ -32,13 +32,6 @@ const getChatMessagesService = async (params: ParamsDictionary) => {
                 ] 
             } 
     ]});
-
-    /*const messages = await MessageModel.find({
-        $and:[
-            {sentBy: params.sentBy},
-            {sentTo: params.sentTo}
-        ]
-    });*/
     
     return messages;
 }
