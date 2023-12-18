@@ -5,6 +5,7 @@ import { Request, Response } from 'express'
 import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
+    console.log('from createChatService', chat)
     const existsChat = await ChatModel.find({
         $or: [
             { 
