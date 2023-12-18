@@ -100,15 +100,6 @@ const getProfileImage = async (req:Request, res:Response) => {
     })
 }
 
-/*const updateUserData = async (req : RequestExtended, res: Response) => {
-    try {
-        const {userId} = req.params
-        const response_data = await updateUserDataService(userId)
-    } catch (error) {
-        handleError(res, 'ERROR_UPDATE_USER_DATA');
-    }
-}*/
-
 export {
     createUser,
     getUserAndChats,

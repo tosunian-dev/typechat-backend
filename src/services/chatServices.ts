@@ -5,8 +5,6 @@ import { Request, Response } from 'express'
 import UserModel from "../models/user";
 
 const createChatService = async (chat: Chat) => {
-    console.log('chat log ', chat);
-    
     const existsChat = await ChatModel.find({
         '$or': [
             { 
@@ -23,8 +21,6 @@ const createChatService = async (chat: Chat) => {
             }
     ]});
 
-    console.log('existsChat ', existsChat);
-    
     if(existsChat.length !== 0) {
         return 'CHAT_EXISTS';
     } else {
@@ -51,12 +47,6 @@ const getChatService = async ({params}:Request) => {
     ]}) 
     
     const chatId = chat.at(0)?._id
-    
-    /*({
-        $and:[
-            {userOne: params.userOne},
-            {userTwo: params.userTwo}]}
-    );*/
     if(chat.length >= 1){
         const messages = await MessageModel.find({ 
             $or: [
@@ -73,18 +63,6 @@ const getChatService = async ({params}:Request) => {
                     ] 
                 } 
         ]}).sort({createdAt:-1});
-        
-        /*({
-            $or:[
-                {sentBy: params.userOne},
-                {sentBy: params.userTwo},
-                {sentTo: params.userOne},
-                {sentTo: params.userTwo}
-            ]}
-        ).sort({createdAt:-1});*/
-
-
-
         const userTwoData = await UserModel.findById(params.userTwo)
         return {userTwoData, chatId, messages};
     } else {
@@ -104,7 +82,6 @@ const deleteChatService  = async (params:string) => {
 
 const deleteChatMessagesService = async (params: string) => { 
     const deletedMessages = await MessageModel.deleteMany({chatID: params})
-    console.log(deletedMessages)
     return deletedMessages
 }
 
@@ -118,8 +95,6 @@ const getChatDataService = async ({params}:Request) => {
         ]});
     return chat
 }
-
-
 
 export {
     createChatService,

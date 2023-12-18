@@ -11,7 +11,6 @@ import { jwtGen } from "../utils/jwtGen.handle";
 import { ProfileImage } from '../interfaces/profile_image.interface';
 import ProfileImageModel from '../models/profileImage';
 import { ObjectId, Types } from "mongoose";
-import path from 'path';
 import fs from 'fs';
 
 type imageData = {
@@ -55,7 +54,6 @@ const getUserAndChatsService = async ({params}:Request) => {
         );
 
         const chatID = user_chats.at(0)?._id
-
         const chats = []
         for(const chat of user_chats){
             let chatUserName 
@@ -73,12 +71,7 @@ const getUserAndChatsService = async ({params}:Request) => {
                 chatUserName = await UserModel.findOne({_id: chat.userTwo})
             }
             
-            // GET USER PROFILE IMAGE PATH //
-
-
-
-            ////
-            
+            // GET USER PROFILE IMAGE PATH //            
             const chatLastMs = await MessageModel.find({ 
                 '$or': [
                     { 
@@ -101,11 +94,9 @@ const getUserAndChatsService = async ({params}:Request) => {
             chatObj.name = `${chatUserName?.name}`
             chatObj.profileImage = `${chatUserName?.profileImage}`
             chatObj.lastMsg = `${chatLastMsg?.text}`
-
             chats.push(chatObj)
         }
         return {user_data, chats, chatID};
-        
     } else {
         return "NO_USER_FOUND";
     }
@@ -176,11 +167,9 @@ const updateUserProfileImageService = async (imageData:imageData) => {
         }
         const updatedUser = await UserModel.findByIdAndUpdate(imageData.userId, {profileImage: imageData.path}, {new:true})
         return updatedUser
-        
     })
     const updatedUser = await UserModel.findByIdAndUpdate(imageData.userId, {profileImage: imageData.path}, {new:true})
-        return updatedUser
-    
+    return updatedUser
 }
 
 export {
